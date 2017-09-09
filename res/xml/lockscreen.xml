@@ -27,6 +27,12 @@
                 android:targetClass="com.android.systemui.tuner.LockscreenActivity" />
     </Preference>
 
+<com.aosip.owlsnest.preference.SystemSettingSwitchPreference
+        android:key="lockscreen_quick_unlock_control"
+        android:title="@string/unlock_quick_unlock_control_title"
+        android:summary="@string/unlock_quick_unlock_control_summary"
+        android:defaultValue="false" />
+
     <com.aosip.support.preference.SystemSettingSwitchPreference
         android:key="lockscreen_battery_info"
         android:title="@string/lockscreen_battery_info_title"
