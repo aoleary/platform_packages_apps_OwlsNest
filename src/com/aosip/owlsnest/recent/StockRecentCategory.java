@@ -18,6 +18,7 @@ package com.aosip.owlsnest.recent;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.SharedPreferences;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -66,11 +67,8 @@ public class StockRecentCategory extends SettingsPreferenceFragment implements
         Preference.OnPreferenceChangeListener, Indexable, DialogInterface.OnDismissListener {
 
     private ListPreference mRecentsLayoutStylePref;
-    private SwitchPreference mSlimToggle;
-    private Preference mSlimSettings;
+    private static final String KEY_CATEGORY_SLIM = "alternative_recents_category";
     private static final String RECENTS_LAYOUT_STYLE_PREF = "recents_layout_style";
-    private static final String PREF_SLIM_RECENTS_SETTINGS = "slim_recents_settings";
-    private static final String PREF_SLIM_RECENTS = "use_slim_recents";
 
     private final static String[] sSupportedActions = new String[] {
         "org.adw.launcher.THEMES",
@@ -91,6 +89,7 @@ public class StockRecentCategory extends SettingsPreferenceFragment implements
     private ListPreference mRecentsClearAllLocation;
     private SwitchPreference mRecentsClearAll;
     private PreferenceCategory mOreoStyleOptions;
+    private PreferenceCategory mSlimCat;
 
     @Override
     public int getMetricsCategory() {
@@ -125,20 +124,40 @@ public class StockRecentCategory extends SettingsPreferenceFragment implements
         updateOreoClearAll(type == 1);
 
         // Slim Recents
-        mSlimSettings = (Preference) findPreference(PREF_SLIM_RECENTS_SETTINGS);
-        mSlimToggle = (SwitchPreference) findPreference(PREF_SLIM_RECENTS);
-        mSlimToggle.setOnPreferenceChangeListener(this);
-
-        updateRecentsPreferences();
+        mSlimCat = (PreferenceCategory) findPreference(KEY_CATEGORY_SLIM);
+        updateRecentsState(type);
     }
 
-    private void updateRecentsPreferences() {
-        boolean slimEnabled = Settings.System.getIntForUser(
-                getActivity().getContentResolver(), Settings.System.USE_SLIM_RECENTS, 0,
-                UserHandle.USER_CURRENT) == 1;
-        // Either Stock or Slim Recents can be active at a time
-        // mRecentsComponentType.setEnabled(!slimEnabled);
-        mSlimToggle.setChecked(slimEnabled);
+    public void updateRecentsState(int type) {
+        switch(type) {
+            case 0:
+                mSlimCat.setEnabled(false);
+                Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.USE_SLIM_RECENTS, 0);
+                break;
+            case 1:
+                mSlimCat.setEnabled(false);
+                Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.USE_SLIM_RECENTS, 0);
+                break;
+            case 2:
+                mSlimCat.setEnabled(false);
+                Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.USE_SLIM_RECENTS, 0);
+                break;
+            case 3:
+                mSlimCat.setEnabled(false);
+                Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.USE_SLIM_RECENTS, 0);
+                break;
+            case 4:
+                mSlimCat.setEnabled(true);
+                Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.USE_SLIM_RECENTS, 1);
+                break;
+            default:
+                break;
+        }
     }
 
     private void updateOreoClearAll(boolean isOreo) {
@@ -146,44 +165,30 @@ public class StockRecentCategory extends SettingsPreferenceFragment implements
         mOreoStyleOptions.setSelectable(isOreo);
     }
 
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        if (preference == mRecentsClearAllLocation) {
-            int location = Integer.valueOf((String) newValue);
-            int index = mRecentsClearAllLocation.findIndexOfValue((String) newValue);
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object objValue) {
+        if (preference == mRecentsLayoutStylePref) {
+            int type = Integer.valueOf((String) objValue);
+            int index = mRecentsLayoutStylePref.findIndexOfValue((String) objValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.RECENTS_LAYOUT_STYLE, type);
+            mRecentsLayoutStylePref.setSummary(mRecentsLayoutStylePref.getEntries()[index]);
+            if (type != 0) { // Disable swipe up gesture, if oreo type selected
+               Settings.Secure.putInt(getActivity().getContentResolver(),
+                    Settings.Secure.SWIPE_UP_TO_SWITCH_APPS_ENABLED, 0);
+            }
+            updateRecentsState(type);
+            Utils.restartSystemUi(getContext());
+        return true;
+        } else if (preference == mRecentsClearAllLocation) {
+            int location = Integer.valueOf((String) objValue);
+            int index = mRecentsClearAllLocation.findIndexOfValue((String) objValue);
             Settings.System.putIntForUser(getActivity().getContentResolver(),
                     Settings.System.RECENTS_CLEAR_ALL_LOCATION, location, UserHandle.USER_CURRENT);
             mRecentsClearAllLocation.setSummary(mRecentsClearAllLocation.getEntries()[index]);
         return true;
-       } else if (preference == mRecentsLayoutStylePref) {
-            int type = Integer.valueOf((String) newValue);
-            int index = mRecentsLayoutStylePref.findIndexOfValue((String) newValue);
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.RECENTS_LAYOUT_STYLE, type);
-            mRecentsLayoutStylePref.setSummary(mRecentsLayoutStylePref.getEntries()[index]);
-            if (type == 1) { // Disable swipe up gesture, if oreo type selected
-               Settings.Secure.putInt(getActivity().getContentResolver(),
-                    Settings.Secure.SWIPE_UP_TO_SWITCH_APPS_ENABLED, 0);
-            }
-            updateOreoClearAll(type == 1);
-        return true;
-        } else if (preference == mSlimToggle) {
-            boolean value = (Boolean) newValue;
-            int type = Settings.System.getInt(
-                getActivity().getContentResolver(), Settings.System.RECENTS_LAYOUT_STYLE, 0);
-            if (value && (type == 0)) { // change recents type to oreo when we are about to switch to slimrecents
-               Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.RECENTS_LAYOUT_STYLE, 1);
-                Utils.restartSystemUi(getContext());
-            }
-            Settings.System.putIntForUser(getActivity().getContentResolver(),
-                    Settings.System.USE_SLIM_RECENTS, value ? 1 : 0,
-                    UserHandle.USER_CURRENT);
-            updateRecentsPreferences();
-            return true;
         }
-
     return false;
-
     }
 
     @Override

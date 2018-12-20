@@ -568,6 +568,7 @@
     <string name="recents_stock">Oreo</string>
     <string name="recents_grid">Grid</string>
     <string name="recents_go">Android Go</string>
+    <string name="recents_slim">Slim</string>
 
     <!-- Themes -->
     <string name="theme_accent_picker_default">Default</string>
