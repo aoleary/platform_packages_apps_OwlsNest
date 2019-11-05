@@ -57,6 +57,13 @@
         settings:units="%"
         android:defaultValue="100" />
 
+    <com.aosip.support.preference.SystemSettingMasterSwitchPreference
+        android:key="status_bar_custom_header"
+        android:fragment="com.aosip.owlsnest.quicksettings.QsHeader"
+        android:title="@string/status_bar_custom_header_title"
+        android:summary="@string/status_bar_custom_header_summary"
+        android:defaultValue="false" />
+
     <PreferenceCategory
         android:key="string/qs_brightness_category"
         android:title="@string/qs_brightness_category_title">
