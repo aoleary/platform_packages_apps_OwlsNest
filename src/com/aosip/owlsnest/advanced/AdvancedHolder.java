@@ -22,6 +22,7 @@ import android.app.DialogFragment;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.UserHandle;
@@ -49,6 +50,7 @@ import java.util.List;
 
 import com.aosip.owlsnest.preference.AppMultiSelectListPreference;
 import com.aosip.owlsnest.preference.ScrollAppsViewPreference;
+import com.aosip.support.preference.SystemSettingSwitchPreference;
 
 public class AdvancedHolder extends SettingsPreferenceFragment implements
         Preference.OnPreferenceChangeListener, Indexable {
@@ -62,8 +64,11 @@ public class AdvancedHolder extends SettingsPreferenceFragment implements
     private static final String VIBRATE_ON_CALLWAITING = "vibrate_on_callwaiting";
     private static final String VIBRATE_ON_DISCONNECT = "vibrate_on_disconnect";
 
+    private static final String SCREEN_STATE_TOGGLES_ENABLE = "screen_state_toggles_gps";
+
     private AppMultiSelectListPreference mAspectRatioAppsSelect;
     private ScrollAppsViewPreference mAspectRatioApps;
+    private SystemSettingSwitchPreference mEnableScreenStateToggles;
 
     private SwitchPreference mVibOnConnect;
     private SwitchPreference mVibOnWait;
@@ -104,6 +109,12 @@ public class AdvancedHolder extends SettingsPreferenceFragment implements
             mAspectRatioAppsSelect.setValues(valuesList);
             mAspectRatioAppsSelect.setOnPreferenceChangeListener(this);
         }
+
+        mEnableScreenStateToggles = (SystemSettingSwitchPreference) findPreference(SCREEN_STATE_TOGGLES_ENABLE);
+        int enabled = Settings.System.getIntForUser(getContentResolver(),
+                Settings.System.START_SCREEN_STATE_SERVICE, 0, UserHandle.USER_CURRENT);
+        mEnableScreenStateToggles.setChecked(enabled != 0);
+        mEnableScreenStateToggles.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -120,6 +131,18 @@ public class AdvancedHolder extends SettingsPreferenceFragment implements
             } else {
                 Settings.System.putString(getContentResolver(),
                 Settings.System.ASPECT_RATIO_APPS_LIST, "");
+            }
+        } else if (preference == mEnableScreenStateToggles) {
+            boolean value = (Boolean) objValue;
+            Settings.System.putIntForUser(getContentResolver(),
+                    Settings.System.START_SCREEN_STATE_SERVICE, value ? 1 : 0, UserHandle.USER_CURRENT);
+            Intent service = (new Intent())
+                .setClassName("com.android.systemui", "com.android.systemui.aosip.screenstate.ScreenStateService");
+            if (value) {
+                getActivity().stopService(service);
+                getActivity().startService(service);
+            } else {
+                getActivity().stopService(service);
             }
             return true;
         }
