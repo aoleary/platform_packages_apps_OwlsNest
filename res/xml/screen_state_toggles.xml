@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/screen_state_toggles_title"
+    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings">
+
+    <com.aosip.support.preference.CustomSeekBarPreference
+        android:key="screen_state_off_delay"
+        android:title="@string/screen_state_off_delay_title"
+        android:max="180"
+        settings:min="0"
+        settings:interval="5"
+        android:defaultValue="0"
+        settings:units="sec"
+        android:persistent="false" />
+
+    <com.aosip.support.preference.CustomSeekBarPreference
+        android:key="screen_state_on_delay"
+        android:title="@string/screen_state_on_delay_title"
+        android:max="180"
+        settings:min="0"
+        settings:interval="5"
+        android:defaultValue="0"
+        settings:units="sec"
+        android:persistent="false" />
+
+    <PreferenceCategory
+        android:key="screen_state_toggles_location_key"
+        android:title="@string/screen_state_toggles_location_title">
+
+        <com.aosip.support.preference.SystemSettingSwitchPreference
+            android:key="screen_state_toggles_gps"
+            android:title="@string/screen_state_toggles_gps"
+            android:summary="@string/screen_state_toggles_gps_summary"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

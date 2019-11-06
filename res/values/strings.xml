@@ -596,4 +596,13 @@
     <string name="sensor_block_title">Sensor block per-package</string>
     <string name="sensor_block_summary">Block access to certain sensors for some apps to save battery</string>
 
+    <!-- Screen state service -->
+    <string name="screen_state_toggles_title">Suspend Actions</string>
+    <string name="screen_state_toggles_summary">Actions executed when the screen is turned off</string>
+    <string name="screen_state_toggles_location_title">Location</string>
+    <string name="screen_state_toggles_gps">Disable GPS</string>
+    <string name="screen_state_toggles_gps_summary">GPS based location service will be disabled on screen off</string>
+    <string name="screen_state_off_delay_title">Screen-off actions delay</string>
+    <string name="screen_state_on_delay_title">Screen-on actions delay</string>
+
 </resources>
