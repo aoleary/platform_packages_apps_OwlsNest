@@ -104,4 +104,31 @@
         android:summary="@string/sensor_block_summary"
         android:defaultValue="false" />
 
+    <com.aosip.support.preference.SystemSettingSwitchPreference
+        android:key="screen_state_toggles_gps"
+        android:title="@string/screen_state_toggles_gps"
+        android:summary="@string/screen_state_toggles_gps_summary"
+        android:defaultValue="false"/>
+
+    <com.aosip.support.preference.CustomSeekBarPreference
+        android:key="screen_state_off_delay"
+        android:title="@string/screen_state_off_delay_title"
+        android:max="180"
+        settings:min="0"
+        settings:interval="5"
+        android:defaultValue="0"
+        settings:units="sec"
+        android:persistent="false" />
+
+    <com.aosip.support.preference.CustomSeekBarPreference
+        android:key="screen_state_on_delay"
+        android:title="@string/screen_state_on_delay_title"
+        android:max="180"
+        settings:min="0"
+        settings:interval="5"
+        android:defaultValue="0"
+        settings:units="sec"
+        android:persistent="false" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
