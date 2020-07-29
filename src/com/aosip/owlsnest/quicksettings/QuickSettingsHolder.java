@@ -45,6 +45,7 @@ public class QuickSettingsHolder extends SettingsPreferenceFragment implements
     private static final String PREF_TILE_ANIM_DURATION = "qs_tile_animation_duration";
     private static final String PREF_TILE_ANIM_INTERPOLATOR = "qs_tile_animation_interpolator";
     private static final String KEY_QS_PANEL_ALPHA = "qs_panel_alpha";
+    private static final String QS_HEADER_STYLE = "qs_header_style";
 
     private CustomSeekBarPreference mQsPanelAlpha;
     private CustomSeekBarPreference mQsRowsPort;
@@ -52,6 +53,7 @@ public class QuickSettingsHolder extends SettingsPreferenceFragment implements
     private CustomSeekBarPreference mQsColumnsPort;
     private CustomSeekBarPreference mQsColumnsLand;
 
+    private ListPreference mQsHeaderStyle;
     private ListPreference mQuickPulldown;
     private ListPreference mTileAnimationStyle;
     private ListPreference mTileAnimationDuration;
@@ -127,6 +129,13 @@ public class QuickSettingsHolder extends SettingsPreferenceFragment implements
         mQsPanelAlpha.setValue((int)(((double) qsPanelAlpha / 255) * 100));
         mQsPanelAlpha.setOnPreferenceChangeListener(this);
 
+        mQsHeaderStyle = (ListPreference) findPreference(QS_HEADER_STYLE);
+        int qsHeaderStyle = Settings.System.getInt(resolver,
+                Settings.System.QS_HEADER_STYLE, 0);
+        int valueIndex = mQsHeaderStyle.findIndexOfValue(String.valueOf(qsHeaderStyle));
+        mQsHeaderStyle.setValueIndex(valueIndex >= 0 ? valueIndex : 0);
+        mQsHeaderStyle.setSummary(mQsHeaderStyle.getEntry());
+        mQsHeaderStyle.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -189,6 +198,13 @@ public class QuickSettingsHolder extends SettingsPreferenceFragment implements
             int trueValue = (int) (((double) bgAlpha / 100) * 255);
             Settings.System.putInt(getContentResolver(),
                     Settings.System.QS_PANEL_BG_ALPHA, trueValue);
+            return true;
+        } else if (preference == mQsHeaderStyle) {
+            int value = Integer.valueOf((String) newValue);
+            int newIndex = mQsHeaderStyle.findIndexOfValue((String) newValue);
+            Settings.System.putInt(resolver,
+                    Settings.System.QS_HEADER_STYLE, value);
+            mQsHeaderStyle.setSummary(mQsHeaderStyle.getEntries()[newIndex]);
             return true;
         }
 
