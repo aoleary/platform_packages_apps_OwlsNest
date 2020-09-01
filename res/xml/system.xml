@@ -81,6 +81,9 @@
             android:summary="@string/aspect_ratio_apps_info" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/battery_saving_options">
+
     <com.aosip.support.preference.SystemSettingSwitchPreference
         android:key="sensor_block"
         android:title="@string/sensor_block_title"
@@ -93,5 +96,6 @@
         android:title="@string/screen_state_toggles_title"
         android:summary="@string/screen_state_toggles_summary"
         android:defaultValue="false" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
