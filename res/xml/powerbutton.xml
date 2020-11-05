@@ -23,6 +23,7 @@
         android:title="@string/powermenu_advanced_reboot_title"
         android:summary="@string/powermenu_advanced_reboot_summary"
         android:defaultValue="false" />
+<<<<<<< HEAD:res/xml/powerbutton.xml
 
     <com.aosip.support.preference.SystemSettingListPreference
         android:key="global_actions_users_choice"
@@ -30,5 +31,13 @@
         android:entries="@array/global_actions_users_choice_entries"
         android:entryValues="@array/global_actions_users_choice_values"
         android:defaultValue="0" />
+=======
+    </PreferenceCategory
+
+    <com.corvus.support.preferences.SystemSettingSwitchPreference
+        android:key="lockscreen_translucent_notifications_bg_enabled"
+        android:title="@string/translucent_lockscreen_notifications_bg_title"
+        android:defaultValue="false" />
+>>>>>>> b5b680a1... Settings: Allow translucent notifications background on lockscreen [2/2]:res/xml/lockscreen_items.xml
 
 </PreferenceScreen>

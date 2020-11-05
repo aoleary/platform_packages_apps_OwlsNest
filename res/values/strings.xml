@@ -235,6 +235,7 @@
     <string name="show_network_traffic_all">Upload &amp; download</string>
     <string name="nettraf_font_size">Single net font size (dp)</string>
 
+<<<<<<< HEAD
     <!-- Quick QS pulldown -->
     <string name="status_bar_quick_qs_pulldown">Quick QS pulldown</string>
     <string name="quick_pulldown_none">Disabled</string>
@@ -335,6 +336,12 @@
     <!-- Lockscreen battery info indicator  -->
     <string name="lockscreen_battery_info_title">Lockscreen charging info</string>
     <string name="lockscreen_battery_info_summary">Display negociated charger max current and voltage and battery temperature on lockscreen while charging</string>
+=======
+    <!-- Translucent lockscreen notifications background -->
+    <string name="translucent_lockscreen_notifications_bg_title">Translucent notifications background</string>
+
+</resources>
+>>>>>>> b5b680a1... Settings: Allow translucent notifications background on lockscreen [2/2]
 
     <!-- Lockscreen charge temperature unit -->
     <string name="lockscreen_charge_temp_unit_title">Temperature unit</string>
