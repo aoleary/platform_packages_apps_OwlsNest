@@ -24,6 +24,18 @@
         android:summary="@string/notification_headers_summary"
         android:defaultValue="true" />
 
+    <PreferenceCategory
+        android:key="media_category"
+        android:title="@string/media_category" >
+
+        <com.aosip.support.preference.SystemSettingSwitchPreference
+            android:key="artwork_media_background"
+            android:title="@string/artwork_media_background_title"
+            android:summary="@string/artwork_media_background_summary"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
     <Preference
         android:key="pulse_ambient_light"
         android:title="@string/pulse_ambient_light_category"
