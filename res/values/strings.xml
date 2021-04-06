@@ -489,4 +489,8 @@
     <string name="weather_icon_pack_info_title">Condition icon pack is used in quick settings and lock screen</string>
     <string name="lockscreen_weather_title">Show weather condition</string>
     <string name="lockscreen_weather_summary">Show current weather condition and temperature</string>
+
+    <!-- Supress notifications if screen is on -->
+    <string name="notification_sound_vib_screen_on_title">Reduce notification sounds</string>
+    <string name="notification_sound_vib_screen_on_summary">Do not play notification sounds/vibrations while screen is on</string>
 </resources>
